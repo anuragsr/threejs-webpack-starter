@@ -2,12 +2,12 @@ import 'normalize.css/normalize.css'
 import './styles/index.scss'
 
 import $ from "jquery"
-import BasicScene from './utils/BasicScene'
+import THREEStarter from './THREEStarter'
 import { l, cl } from './utils/helpers'
 
 $(() => {
   setTimeout(() => {
-    const scene = new BasicScene({ ctn: $("#three-ctn") })
+    const scene = new THREEStarter({ ctn: $("#three-ctn") })
     scene.init()
   }, 50)
 })

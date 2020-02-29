@@ -3,10 +3,10 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import gsap from 'gsap'
 
-import GUI from './gui'
-import { l, cl } from './helpers'
+import GUI from './utils/gui'
+import { l, cl } from './utils/helpers'
 
-export default class BasicScene {
+export default class THREEStarter {
   constructor(opts){
     this.ctn = opts.ctn
     this.w = this.ctn.width()

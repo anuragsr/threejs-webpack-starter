@@ -1,5 +1,3 @@
 const wc = window.console
-module.exports = {
-  l: console.log.bind(wc),
-  cl: console.clear.bind(wc)
-}
+export const l = console.log.bind(wc)
+export const cl = console.clear.bind(wc)

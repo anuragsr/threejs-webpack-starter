@@ -5,11 +5,11 @@ export default class GUI{
   constructor(){
     this.gui = new dat.GUI()
   }
-  getParams(){
+  getParams(currMesh){
     return {
       helpers: true, 
-      message: 'Customize here',
       getState: function () { l(this) },
+      currMesh: currMesh?currMesh.name:"",
     }
   }
 }

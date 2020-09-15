@@ -25,6 +25,7 @@
         "gsap": "^3.2.2",
         "jquery": "^3.4.1",
         "normalize.css": "^8.0.0",
+        "stats.js": "^0.17.0",
         "three": "^0.113.2"
     },
     "devDependencies": {

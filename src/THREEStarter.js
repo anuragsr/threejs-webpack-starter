@@ -1,7 +1,9 @@
 import $ from 'jquery'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+
 import gsap from 'gsap'
+import Stats from 'stats.js'
 
 import GUI from './utils/gui'
 import { l, cl } from './utils/helpers'
@@ -17,32 +19,48 @@ export default class THREEStarter {
 
     this.origin = new THREE.Vector3(0, 0, 0)
     this.cameraStartPos = new THREE.Vector3(0, 500, 0)
-    this.axesHelper = new THREE.AxesHelper(500)
     this.controls = new OrbitControls(this.camera, this.renderer.domElement)
+    
+    this.axesHelper = new THREE.AxesHelper(500)
+    this.axesHelper.material.opacity = .5
+    this.axesHelper.material.transparent = true
 
-    this.floor = new THREE.Mesh(
-      new THREE.PlaneGeometry(1000, 1000, 32, 32),
-      new THREE.MeshBasicMaterial({
-        color: new THREE.Color('pink'), side: THREE.DoubleSide,
-        transparent: true, opacity: .1, wireframe: true
-      })
-    )
+    this.gridHelper = new THREE.GridHelper( 1000, 50 )
+    this.gridHelper.material.opacity = .3
+    this.gridHelper.material.transparent = true
+    this.gridHelper.name = "Grid Helper"
 
-    this.spotLightMesh1 = new THREE.Mesh(
+    this.spotLightMesh1 = this.createMesh(
       new THREE.SphereGeometry(5, 50, 50, 0, Math.PI * 2, 0, Math.PI * 2),
       new THREE.MeshPhongMaterial({ color: 0xffff00 })
     )
     this.spotLight1 = new THREE.DirectionalLight(0xffffff, 1)
     this.lightPos1 = new THREE.Vector3(500, 350, 500)
-    this.spotLightMesh2 = new THREE.Mesh(
+    this.spotLightMesh2 = this.createMesh(
       new THREE.SphereGeometry(5, 50, 50, 0, Math.PI * 2, 0, Math.PI * 2),
       new THREE.MeshPhongMaterial({ color: 0xffff00 })
     )
     this.spotLight2 = new THREE.DirectionalLight(0xffffff, 1)
     this.lightPos2 = new THREE.Vector3(-500, 350, -500)
+
+    this.currMesh = { name: "Blank" }
+
+    this.stats = new Stats()
+    this.stats.showPanel(0) // 0: fps, 1: ms, 2: mb, 3+: custom
+    document.body.appendChild(this.stats.dom)
+  }
+  createMesh(geometry, material, materialOptions){
+    if(materialOptions) {
+      let { wrapping, repeat, minFilter } = materialOptions
+      material.map.wrapS = material.map.wrapT = wrapping
+      material.map.repeat = repeat
+      material.map.minFilter = minFilter
+    }
+
+    return new THREE.Mesh(geometry, material)
   }
   init(){
-    let { 
+    const { 
       ctn, w, h,
       camera, scene, renderer,
       cameraStartPos, origin, floor,
@@ -51,7 +69,7 @@ export default class THREEStarter {
     } = this
 
     // Renderer settings
-    renderer.setClearColor(0x000000, 1)    
+    renderer.setClearColor(0x000000, 0)
     renderer.setSize(w, h)
     $(renderer.domElement).css({
       position: "absolute",
@@ -73,9 +91,6 @@ export default class THREEStarter {
     spotLightMesh2.position.copy(lightPos2)
     spotLight2.position.copy(lightPos2)
     scene.add(spotLight2)
-
-    // Plane  
-    floor.rotation.x = Math.PI / 2
     
     // Initialize the scene
     this.initGUI()
@@ -84,51 +99,59 @@ export default class THREEStarter {
     this.addListeners()
   }
   initGUI() {
-    let guiObj = new GUI()
+    const guiObj = new GUI()
     , gui = guiObj.gui
-    , params = guiObj.getParams()
+    , params = guiObj.getParams(this.currMesh)
 
-    let he = gui.add(params, 'helpers')
+    const he = gui.add(params, 'helpers')
     he.onChange(value => this.toggleHelpers(value))
 
     gui.add(params, 'getState')
-    gui.add(params, 'message')
+
+    this.guiObj = guiObj
   }
   toggleHelpers(val){
-    let {
-      scene, floor, axesHelper, 
+    const {
+      scene, gridHelper, axesHelper, 
       spotLightMesh1, spotLightMesh2
     } = this
     if(val){
-      scene.add(floor)
+      scene.add(gridHelper)
       scene.add(axesHelper)
       scene.add(spotLightMesh1)
       scene.add(spotLightMesh2)
     } else{
-      scene.remove(floor)
+      scene.remove(gridHelper)
       scene.remove(axesHelper)
       scene.remove(spotLightMesh1)
       scene.remove(spotLightMesh2)
     }
   }
   addObjects(){
-    let { scene } = this
-    , geometry = new THREE.CylinderGeometry( 150, 150, 50, 32, 1, true )
-    , material = new THREE.MeshBasicMaterial( { wireframe: true, color: 0xffffff} )
-    , cylinder = new THREE.Mesh( geometry, material )
+    const { scene, guiObj, createMesh } = this
+    , cylinder = createMesh(
+      new THREE.CylinderGeometry( 50, 50, 50, 32, 1, false ),
+      new THREE.MeshPhongMaterial({ side: THREE.DoubleSide, color: 0x000000 })
+    )
 
+    cylinder.name = "Base Object"
     cylinder.position.set(0, 25, 0)
-    scene.add( cylinder )
+    scene.add(cylinder)
+
+    this.currMesh = cylinder
+    // const guiObj = new GUI()
+    const gui = guiObj.gui
+    , params = guiObj.getParams(this.currMesh)
+    gui.add(params, 'currMesh')
   }  
   render() {
-    let { renderer, scene, camera } = this
-    renderer.render(scene, camera)
-    // try{
-    //   renderer.render(scene, camera)
-    // } catch (err){
-    //   l(err)
-    //   TweenLite.ticker.removeEventListener("tick", render)
-    // }
+    const { renderer, scene, camera } = this
+    try{
+      renderer.render(scene, camera)
+    } catch (err){
+      l(err)
+      TweenLite.ticker.removeEventListener("tick", render)
+    }
   }
   resize() {
     let {
@@ -139,9 +162,6 @@ export default class THREEStarter {
     h = ctn.height()
     camera.aspect = w / h
     camera.updateProjectionMatrix()
-  
-    // splineCamera.aspect = w / h
-    // splineCamera.updateProjectionMatrix()
   
     renderer.setSize(w, h)
   }

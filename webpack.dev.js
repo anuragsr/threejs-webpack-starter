@@ -7,7 +7,7 @@ module.exports = {
     entry: './src/index.js',
     devServer: {
         disableHostCheck: true,
-        port: 8080,
+        port: 8081,
         contentBase: path.join(__dirname, "dist"),
         publicPath: '/'
     },

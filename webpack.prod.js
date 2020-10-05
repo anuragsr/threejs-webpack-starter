@@ -121,9 +121,11 @@ module.exports = {
         //         yandex: false,
         //         windows: false
         //     }
-        new CopyWebpackPlugin([
-          { from: 'assets', to: 'assets' }
-        ]),
+        new CopyWebpackPlugin({
+            patterns: [
+                { from: './src/assets', to: 'assets' }
+            ]
+        }),
         new MiniCssExtractPlugin({
             filename: 'styles.[contenthash].css'
         }),

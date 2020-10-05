@@ -2,6 +2,7 @@ const path = require('path');
 
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin'); //installed via npm
+const CopyWebpackPlugin = require('copy-webpack-plugin'); //installed via npm
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
@@ -76,7 +77,7 @@ module.exports = {
             ,
             {
                 // Load all icons
-                test: /\.(eot|woff|woff2|svg|ttf)([\?]?.*)$/,
+                test: /\.(eot|woff|woff2|svg|ttf|otf)([\?]?.*)$/,
                 use: [
                     {
                         loader: 'file-loader',
@@ -92,35 +93,37 @@ module.exports = {
             inject: 'body',
         }),
         new CleanWebpackPlugin(buildPath),
-        new FaviconsWebpackPlugin({
+        // new FaviconsWebpackPlugin({
             // Your source logo
-            logo: './src/assets/icon.png',
+        //     logo: './src/assets/icon.png',
             // The prefix for all image files (might be a folder or a name)
-            prefix: 'icons-[hash]/',
+        //     prefix: 'icons-[hash]/',
             // Generate a cache file with control hashes and
             // don't rebuild the favicons until those hashes change
-            persistentCache: true,
+        //     persistentCache: true,
             // Inject the html into the html-webpack-plugin
-            inject: true,
-            // favicon background color (see https://github.com/haydenbleasel/favicons#usage)
-            background: '#fff',
-            // favicon app title (see https://github.com/haydenbleasel/favicons#usage)
-            title: 'threejs-starter',
+        //     inject: true,
+        //     // favicon background color (see https://github.com/haydenbleasel/favicons#usage)
+        //     background: '#fff',
+        //     // favicon app title (see https://github.com/haydenbleasel/favicons#usage)
+        //     title: 'threejs-starter',
 
-            // which icons should be generated (see https://github.com/haydenbleasel/favicons#usage)
-            icons: {
-                android: true,
-                appleIcon: true,
-                appleStartup: true,
-                coast: false,
-                favicons: true,
-                firefox: true,
-                opengraph: false,
-                twitter: false,
-                yandex: false,
-                windows: false
-            }
-        }),
+        //     // which icons should be generated (see https://github.com/haydenbleasel/favicons#usage)
+        //     icons: {
+        //         android: true,
+        //         appleIcon: true,
+        //         appleStartup: true,
+        //         coast: false,
+        //         favicons: true,
+        //         firefox: true,
+        //         opengraph: false,
+        //         twitter: false,
+        //         yandex: false,
+        //         windows: false
+        //     }
+        new CopyWebpackPlugin([
+          { from: 'assets', to: 'assets' }
+        ]),
         new MiniCssExtractPlugin({
             filename: 'styles.[contenthash].css'
         }),

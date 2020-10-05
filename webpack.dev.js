@@ -1,13 +1,14 @@
 const path = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     devtool: 'eval-cheap-module-source-map',
     entry: './src/index.js',
     devServer: {
         disableHostCheck: true,
-        port: 8081,
+        port: 8080,
         contentBase: path.join(__dirname, "dist"),
         publicPath: '/'
     },
@@ -71,19 +72,27 @@ module.exports = {
             ,
             {
                 // Load all icons
-                test: /\.(eot|woff|woff2|svg|ttf)([\?]?.*)$/,
+                test: /\.(eot|woff|woff2|svg|ttf|otf)([\?]?.*)$/,
                 use: [
                     {
                         loader: 'file-loader',
                     }
                 ]
             }
+            // ,
+            // {
+            //   test: /\.(obj|mtl|fbx)$/,
+            //   loader: 'file-loader'
+            // },
         ],
     },
     plugins: [
         new HtmlWebpackPlugin({
             template: './index.html',
             inject: true
-        })
+        }),
+        new CopyWebpackPlugin([
+          { from: 'assets', to: 'assets' }
+        ])
     ]
 };

@@ -38,6 +38,7 @@
         "babel-loader": "^7.1.4",
         "babel-preset-env": "^1.7.0",
         "clean-webpack-plugin": "^0.1.19",
+        "copy-webpack-plugin": "^6.2.0",
         "css-loader": "^0.28.11",
         "cssnano": "^3.10.0",
         "favicons-webpack-plugin": "0.0.9",

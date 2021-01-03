@@ -1,5 +1,5 @@
 .idea
 /node_modules
-dist
+build
 extra
 vs.code-workspace

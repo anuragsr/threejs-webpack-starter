@@ -7,8 +7,7 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "start": "webpack-dev-server --config webpack.dev.js --mode development",
         "build": "webpack --config webpack.prod.js --mode production",
-        "preview": "npm run build && http-server dist",
-        "postinstall": "patch-package"
+        "preview": "npm run build && http-server dist"
     },
     "repository": {
         "type": "git",
@@ -26,7 +25,6 @@
         "gsap": "^3.2.2",
         "jquery": "^3.4.1",
         "normalize.css": "^8.0.0",
-        "patch-package": "^6.2.2",
         "stats.js": "^0.17.0",
         "three": "^0.113.2"
     },

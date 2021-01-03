@@ -28,9 +28,14 @@
         "three": "^0.113.2"
     },
     "devDependencies": {
+        "@babel/core": "^7.12.10",
+        "@babel/plugin-proposal-object-rest-spread": "^7.12.1",
+        "@babel/preset-env": "^7.12.11",
         "@fullhuman/postcss-purgecss": "^1.1.0",
         "ajv": "^6.3.0",
         "autoprefixer": "^9.3.1",
+        "babel-loader": "^8.2.2",
+        "base-href-webpack-plugin": "^2.0.0",
         "clean-webpack-plugin": "^0.1.19",
         "copy-webpack-plugin": "^6.2.0",
         "css-loader": "^0.28.11",

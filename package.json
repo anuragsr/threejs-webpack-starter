@@ -21,7 +21,7 @@
     "homepage": "",
     "dependencies": {
         "dat.gui": "^0.7.6",
-        "gsap": "^3.2.2",
+        "gsap": "^3.6.0",
         "jquery": "^3.5.0",
         "normalize.css": "^8.0.0",
         "stats.js": "^0.17.0",

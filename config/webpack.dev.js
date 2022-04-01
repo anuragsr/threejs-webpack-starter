@@ -1,3 +1,4 @@
+const paths = require('./paths')
 const { merge } = require('webpack-merge')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const common = require('./webpack.common')
@@ -11,11 +12,16 @@ module.exports = merge(common, {
 
   // Spin up a server for quick development
   devServer: {
+    static: {
+      directory: paths.src,
+      staticOptions: {},
+      serveIndex: true,
+      watch: true,
+    },
     historyApiFallback: true,
     open: true,
     compress: true,
     hot: true,
-    port: 8080,
   },
 
   module: {

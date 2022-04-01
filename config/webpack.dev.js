@@ -12,12 +12,13 @@ module.exports = merge(common, {
 
   // Spin up a server for quick development
   devServer: {
-    static: {
-      directory: paths.src,
-      staticOptions: {},
-      serveIndex: true,
-      watch: true,
-    },
+    watchFiles: ['src/**/*'],
+    // static: {
+    //   directory: paths.src,
+    //   staticOptions: {},
+    //   serveIndex: true,
+    //   watch: true,
+    // },
     historyApiFallback: true,
     open: true,
     compress: true,

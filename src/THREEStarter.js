@@ -145,12 +145,14 @@ export default class THREEStarter {
     gui.add(params, 'currMesh')
   }  
   render() {
-    const { renderer, scene, camera } = this
+    const { renderer, scene, camera, stats } = this
     try{
+      stats.begin()
       renderer.render(scene, camera)
+      stats.end()
     } catch (err){
       l(err)
-      TweenLite.ticker.removeEventListener("tick", render)
+      gsap.ticker.removeEventListener("tick", render)
     }
   }
   resize() {

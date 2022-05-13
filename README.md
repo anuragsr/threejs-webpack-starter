@@ -1,4 +1,5 @@
-# Webpack 5 Starter
+## threejs-webpack-starter
+This is a boilerplate for a basic threejs scene, using a default webpack config
 
 Based on [this starter](https://github.com/taniarascia/webpack-boilerplate)
 

@@ -41,7 +41,7 @@ module.exports = {
     // Generates an HTML file from a template
     // Generates deprecation warning: https://github.com/jantimon/html-webpack-plugin/issues/1501
     new HtmlWebpackPlugin({
-      title: 'Webpack 5 Starter',
+      title: 'Three.JS + Webpack 5 Starter',
       favicon: paths.src + '/images/favicon.png',
       template: paths.src + '/template.html', // template file
       filename: 'index.html', // output file
@@ -56,6 +56,9 @@ module.exports = {
 
       // Images: Copy image files to build folder
       { test: /\.(?:ico|gif|png|jpg|jpeg)$/i, type: 'asset/resource' },
+
+      // 3d Models: Copy 3d model files to build folder
+      { test: /\.(?:gltf|gltf2|obj|mtl|fbx|stl)$/i, type: 'asset/resource' },
 
       // Fonts and SVGs: Inline files
       { test: /\.(woff(2)?|eot|ttf|otf|svg|)$/, type: 'asset/inline' },

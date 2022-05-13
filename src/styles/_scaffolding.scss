@@ -1,3 +1,8 @@
+html, body, #three-ctn{
+  height: 100%;
+  width: 100%;
+}
+
 html {
   font-size: $font-size;
   font-family: $font-family;
@@ -9,7 +14,6 @@ html {
 body {
   margin: auto;
   text-align: center;
-  max-width: $page-width;
 }
 
 h1 {
